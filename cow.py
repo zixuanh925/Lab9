@@ -1,12 +1,13 @@
 class Cow:
     def __init__(self,name):
-        self.name = name
+        self._name = name
+        self._image = None
 
     def get_name(self):
-        return self.name
+        return self._name
 
     def get_image(self):
-        return self.get_image()
+        return self._image
 
     def set_image(self, image):
-        self.image = image
+        self._image = image
