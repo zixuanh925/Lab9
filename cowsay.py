@@ -1,5 +1,7 @@
 from cow import Cow
 import sys
+from dragon import Dragon
+from ice_dragon import IceDragon
 
 
 def get_cows():
@@ -9,7 +11,7 @@ def get_cows():
     quote_lines += "     \\\n"
     quote_lines += "      \\\n"
 
-    cow_images = [
+    cowImages = [
         "        ^__^\n"
         + "        (oo)\\_______\n"
         + "        (__)\\       )\\/\\\n"
@@ -21,11 +23,42 @@ def get_cows():
         + "      _.. `--'_..-_/   /--' _ .' ,4\n"
         + "   ( i l ),-''  ( l i),'  ( ( ! .-'\n",
     ]
-    cows = [None] * len(cow_images)
-    for index in range(len(cows)):
+
+    dragon_names = ["dragon", "ice-dragon"]
+    dragon_types = [Dragon, IceDragon]
+
+    dragon_image = (
+        "           |\\___/|       /\\  //|\\\\\n"
+        + "           /0  0  \\__   /  \\// | \\ \\\n"
+        + "          /     /  \\/_ /   //  |  \\  \\\n"
+        + "          \\_^_\\'/   \\/_   //   |   \\   \\\n"
+        + "          //_^_/     \\/_ //    |    \\    \\\n"
+        + "       ( //) |        \\ //     |     \\     \\\n"
+        + "     ( / /) _|_ /   )   //     |      \\     _\\\n"
+        + "   ( // /) '/,_ _ _/  ( ; -.   |    _ _\\.-~       .-~~~^-.\n"
+        + " (( / / )) ,-{        _      `.|.-~-.          .~         `.\n"
+        + "(( // / ))  '/\\      /                ~-. _.-~      .-~^-.  \\\n"
+        + "(( /// ))      `.   {            }                 /      \\  \\\n"
+        + " (( / ))     .----~-.\\        \\-'               .~         \\  `.   __\n"
+        + "            ///.----..>        \\            _ -~            `.  ^-`  \\\n"
+        + "              ///-._ _ _ _ _ _ _}^ - - - - ~                   `-----'\n"
+    )
+
+    cows = [None] * (len(cow_names) + len(dragon_names))
+    # add the 'regular' cows
+    num_regular = len(cow_names)
+    for index in range(num_regular):
         cows[index] = Cow(cow_names[index])
-        cows[index].set_image(quote_lines + cow_images[index])
+        cows[index].set_image(quote_lines + cowImages[index])
+
+    # add the dragons
+    for index in range(len(dragon_names)):
+        cows[num_regular + index] = dragon_types[index](
+            dragon_names[index], quote_lines + dragon_image
+        )
+
     return cows
+
 
 
 def list_cows(cows):   #Cows available: heifer kitteh
@@ -56,6 +89,11 @@ def main():
         if cow:
             print(message)
             print(cow.get_image())
+            if isinstance(cow, (Dragon, IceDragon)):
+                if cow.can_breath_fire():
+                    print("This dragon can breathe fire.")
+                else:
+                    print("This dragon cannot breathe fire.")
         else:
             print(f"Could not find {cow_name} cow!")
 
